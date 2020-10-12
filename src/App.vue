@@ -2,11 +2,28 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link :to="{ name: 'Login' }">Login</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script>
+import firebase from "firebase";
+export default {
+  mounted() {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword("walterwhite@gmail.com", "123456")
+      .then((user) => this.$store.dispatch("setUser", user.user))
+      .catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
